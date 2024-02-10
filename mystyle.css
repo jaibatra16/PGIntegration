@@ -1,0 +1,35 @@
+.myheader {
+    display: flex;
+    align-items: center/* vertical alignment */;
+    font-size: 3rem;
+  }
+  
+  small {
+    padding-left: 250px;
+    font-size: 80rem;
+  }
+
+  .my-button {
+    max-width: 31% !important;
+    margin-left: 380px !important;
+  }
+
+ .my-input-class{
+font-family: 'Courier New', Courier, monospace;
+box-shadow: 1px 1px;
+  }
+
+ .my-heading{
+    font-family: 'Lucida Handwriting';
+    color:#602dba;
+ }
+
+ input{
+padding-right: 50px !important;
+
+ }
+
+ .initiate-button{
+    background-color: #602dba !important;
+    color:white !important;
+ }
