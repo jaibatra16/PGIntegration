@@ -20,7 +20,6 @@ box-shadow: 1px 1px;
   }
 
  .my-heading{
-    font-family: 'Lucida Handwriting';
     color:#602dba;
  }
 
@@ -30,6 +29,22 @@ padding-right: 50px !important;
  }
 
  .initiate-button{
-    background-color: #602dba !important;
+    background-color: #5c27b9 !important;
     color:white !important;
  }
+
+ .my-span{
+
+    font-family: 'Cursive';
+ }
+
+ body {
+    margin: 0;
+  }
+  
+  .logo {
+    width: 130px;
+    height: 80px;
+    top: 0;
+    left: 0;
+  }
