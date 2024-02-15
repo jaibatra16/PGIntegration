@@ -1,39 +1,25 @@
 
     let callPayapi = () => {
-
-      validateForm();
-    
+      buildXverify();
       var amount = document.getElementById("myText").value;
-
       var saltkey = document.getElementById("salt").value;
-
       var index = document.getElementById("index").value;
-
       var merId = document.getElementById("mid").value;
-
       var mTid = document.getElementById("mTid").value;
-
       var mUid = document.getElementById("mUid").value;
-
       var redirectUrl = document.getElementById("redirect").value;
-
       var redirectMode = document.getElementById("mode").value;
-
       var callbackUrl = document.getElementById("callback").value;
-
       var mobileNumber = document.getElementById("mobile").value;
-      
       var payload = requestPayload(amount, merId, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber);
-
       var finalHeaders = requestHeaders(payload, saltkey, index);
-
       const prodUrl = 'https://api.phonepe.com/apis/hermes/pg/v1/pay';
-
       const uatUrl = 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay';
-
       var environmentSelected = uatUrl;
 
-      /*if (document.getElementById('prod').checked) {
+      /* - To enable toggle between PROD and UAT
+      
+      if (document.getElementById('prod').checked) {
         environmentSelected = prodUrl;
       }
       
@@ -84,79 +70,68 @@ return objJsonB64;
 
 }
 
-let requestHeaders = (objJsonB64, salt, index) => {
+let requestHeaders = (payload, saltkey, index) => {
 
-var finalxVerify = buildXverify(index, salt, objJsonB64);
-
-console.log (finalxVerify);
-
+var finalxVerify = buildXverify(index, saltkey, payload);
+console.log ('request headers pehle', finalxVerify);
 var header = {
     accept: 'application/json',
- 'Content-Type' : 'application/json' ,
+ 'Content-Type' : 'application/json',
  'X-VERIFY' : finalxVerify
     };
-
-return header;
+    console.log('correct x verify baad m', finalxVerify);
+    return(header);
 
 }
 
 
-let buildXverify = (index, salt, objJsonB64) => {
+let buildXverify = (index, saltkey, objJsonB64) => {
+
 var endpoint = '/pg/v1/pay';
 var string2 = '###';
-var input = objJsonB64 + endpoint + salt; //concatenating the values
+var input = objJsonB64 + endpoint + saltkey; //concatenating the values
 var xVerify = sha256(input); //conversion to sha 256
 var finalxVerify = xVerify + string2 + index; //final checksum
+console.log('build', finalxVerify);
 return finalxVerify;
-
 }
  
 
 let printXverify = () => {
-
-  var amount = document.getElementById("myText").value;
-
-  var salt = document.getElementById("salt").value;
-
-  var index = document.getElementById("index").value;
-
-  var merID = document.getElementById("mid").value;
-
-  var mTid = document.getElementById("mTid").value;
-
-  var payload = requestPayload(amount, merID, mTid);
-
-  var finalxVerify = buildXverify(index, salt, payload);
-
-
-  console.log(finalxVerify);
-  document.getElementById('xverify').innerHTML = finalxVerify;
+ var amount = document.getElementById("myText").value;
+ var saltkey = document.getElementById("salt").value;
+ var index = document.getElementById("index").value;
+ var merId = document.getElementById("mid").value;
+ var mTid = document.getElementById("mTid").value;
+ var mUid = document.getElementById("mUid").value;
+ var redirectUrl = document.getElementById("redirect").value;
+ var redirectMode = document.getElementById("mode").value;
+ var callbackUrl = document.getElementById("callback").value;
+ var mobileNumber = document.getElementById("mobile").value;
+ var payload = requestPayload(amount, merId, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber);
+ var finalprintxVerify = buildXverify(index, saltkey, payload);
+  console.log('print', finalprintxVerify);
+  document.getElementById('xverify').innerHTML = finalprintxVerify;
 }
+
+
 
 
 let printBase64 = () => {
 
   var amount = document.getElementById("myText").value;
-
   var merId = document.getElementById("mid").value;
-
   var mTid = document.getElementById("mTid").value;
-
   var mUid = document.getElementById("mUid").value;
-
   var redirectUrl = document.getElementById("redirect").value;
-
   var redirectMode = document.getElementById("mode").value;
-
   var callbackUrl = document.getElementById("callback").value;
-
   var mobileNumber = document.getElementById("mobile").value;
-
   var payload = requestPayload(amount, merId, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber);
-
   console.log(payload);
   document.getElementById('base64').innerHTML = payload;
 }
+
 
 let fillSampleDetails = () => {
   
@@ -165,7 +140,7 @@ let fillSampleDetails = () => {
       document.getElementById("mTid").value = "MT7850590068188104";
       document.getElementById("myText").value = "100";
       document.getElementById("mUid").value = "MUID123";
-      document.getElementById("redirect").value = "https://webhook.site/redirect-url"
+      document.getElementById("redirect").value = "https://jaibatra16.github.io/PGIntegration/"
       document.getElementById("mode").value = "REDIRECT";
       document.getElementById("callback").value ="https://webhook.site/callback-url";
       document.getElementById("mobile").value = "9999999999";
@@ -191,18 +166,65 @@ let clearSampleDetails = () => {
   document.getElementById("index").value = "";
 }
 
-let validateForm = () =>{
-
-  console.log('validation logic executed');
-  var forms = document.getElementById('my-form');
-  // Loop over them and prevent submission
-  var validation = Array.prototype.filter.call(forms, function(form) {
-    form.addEventListener('submit', function(event) {
-      if (form.checkValidity() === false) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      form.classList.add('was-validated');
-    }, false);
-  });
+let fillStatusDetails = () =>{
+  document.getElementById("merchantId").value = "PGTESTPAYUAT";
+  document.getElementById("merchantTransactionId").value = "MT7850590068188104";
+  document.getElementById("salt1").value = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399";
+  document.getElementById("index1").value = "1";
 }
+
+let clearStatusDetails = () =>{
+  document.getElementById("merchantId").value = "";
+  document.getElementById("merchantTransactionId").value = "";
+  document.getElementById("salt1").value = "";
+  document.getElementById("index1").value = "";
+}
+
+let calculateStatusChecksum = () => {
+var endpoint = '/pg/v1/status/'
+var merchantId = document.getElementById("merchantId").value;
+var merchantTransactionId = document.getElementById("merchantTransactionId").value;
+var saltKey = document.getElementById("salt1").value;
+var keyIndex = document.getElementById("index1").value;
+var statusInput = endpoint + merchantId + "/" +merchantTransactionId + saltKey;
+var checksum = sha256(statusInput);
+var finalStatusChecksum = checksum + "###" + keyIndex;
+return finalStatusChecksum;
+}
+
+
+let printStatusChecksum = () =>  {
+var finalStatusChecksum = calculateStatusChecksum();
+console.log(finalStatusChecksum);
+document.getElementById('checksumoutput').innerHTML = finalStatusChecksum;
+}
+
+let callCheckStatusAPI = () => {
+
+var merchantId = document.getElementById("merchantId").value;
+var merchantTransactionId = document.getElementById("merchantTransactionId").value;
+var xMerchantId = document.getElementById("merchantId").value;
+var finalCheckXverify = calculateStatusChecksum();
+  const options = {
+    method: 'get',
+    url: 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/'+ merchantId + "/" + merchantTransactionId,
+    headers: {
+      accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-VERIFY': finalCheckXverify,
+      'X-MERCHANT-ID': xMerchantId,
+      },
+      
+  };
+  axios
+    .request(options)
+        .then(function (response) {
+        console.log(response.data);
+        document.getElementById('checkstatusoutput').innerHTML = JSON.stringify(response.data);
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+
+}
+
