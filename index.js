@@ -161,6 +161,8 @@ let clearSampleDetails = () => {
       document.getElementById("mode").value = "";
       document.getElementById("callback").value ="";
       document.getElementById("mobile").value = "";
+      document.getElementById("base64").value = "";
+      document.getElementById("xverify").value = "";
 
   document.getElementById("salt").value = "";
   document.getElementById("index").value = "";
@@ -171,6 +173,7 @@ let fillStatusDetails = () =>{
   document.getElementById("merchantTransactionId").value = "MT7850590068188104";
   document.getElementById("salt1").value = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399";
   document.getElementById("index1").value = "1";
+  document.getElementById("xmerchantid").value = "PGTESTPAYUAT";
 }
 
 let clearStatusDetails = () =>{
@@ -178,6 +181,9 @@ let clearStatusDetails = () =>{
   document.getElementById("merchantTransactionId").value = "";
   document.getElementById("salt1").value = "";
   document.getElementById("index1").value = "";
+  document.getElementById("checksumoutput").value = ""
+  document.getElementById("xmerchantid").value = "";
+  
 }
 
 let calculateStatusChecksum = () => {
@@ -220,7 +226,7 @@ var finalCheckXverify = calculateStatusChecksum();
     .request(options)
         .then(function (response) {
         console.log(response.data);
-        document.getElementById('checkstatusoutput').innerHTML = JSON.stringify(response.data);
+        document.getElementById("checkStatusOutput").innerHTML = JSON.stringify(response.data, undefined, 2);
     })
     .catch(function (error) {
       console.error(error);
