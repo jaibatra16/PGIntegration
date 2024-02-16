@@ -209,7 +209,7 @@ let callCheckStatusAPI = () => {
 
 var merchantId = document.getElementById("merchantId").value;
 var merchantTransactionId = document.getElementById("merchantTransactionId").value;
-var xMerchantId = document.getElementById("merchantId").value;
+var xMerchantId = document.getElementById("xmerchantid").value;
 var finalCheckXverify = calculateStatusChecksum();
   const options = {
     method: 'get',
